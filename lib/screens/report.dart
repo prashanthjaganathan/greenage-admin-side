@@ -37,7 +37,7 @@ class _ReportState extends State<Report> {
     Future.delayed(Duration.zero, () async {
       conn = await MySqlConnection.connect(
         ConnectionSettings(
-          host: '34.93.37.194',
+          host: '34.93.225.253',
           port: 3306,
           user: 'root',
           password: 'root',

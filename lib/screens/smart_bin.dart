@@ -28,7 +28,7 @@ class _SmartBinState extends State<SmartBin> {
     {
       var _conn = await MySqlConnection.connect(
         ConnectionSettings(
-          host: '34.93.37.194',
+          host: '34.93.225.253',
           port: 3306,
           user: 'root',
           password: 'root',
@@ -90,7 +90,7 @@ class _SmartBinState extends State<SmartBin> {
       {
         var _conn = await MySqlConnection.connect(
           ConnectionSettings(
-            host: '34.93.37.194',
+            host: '34.93.225.253',
             port: 3306,
             user: 'root',
             password: 'root',

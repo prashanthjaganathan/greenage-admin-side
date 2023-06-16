@@ -50,7 +50,7 @@ class _DetailedReportPageState extends State<DetailedReportPage> {
     {
       var _conn = await MySqlConnection.connect(
         ConnectionSettings(
-          host: '34.93.37.194',
+          host: '34.93.225.253',
           port: 3306,
           user: 'root',
           password: 'root',
@@ -63,7 +63,6 @@ class _DetailedReportPageState extends State<DetailedReportPage> {
       //     binID.add(row['Bin_No']);
       //     latitudes.add(row['latitude']);
       //     longtitudes.add(row['longitude']);
-
     }
 
     Position position = await _determinePosition();
@@ -235,7 +234,7 @@ class _DetailedReportPageState extends State<DetailedReportPage> {
             ),
             title: Text(
               _report.name,
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 15),
               textAlign: TextAlign.start,
             ),
             trailing: IconButton(
@@ -259,21 +258,28 @@ class _DetailedReportPageState extends State<DetailedReportPage> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Expanded(flex: 3, child: Text(_report.address)),
+                        Expanded(
+                            flex: 3,
+                            child: Text(
+                              _report.address,
+                              style: const TextStyle(fontSize: 10),
+                            )),
                         Expanded(
                           //flex: 1,
-                          child: IconButton(
-                              onPressed: () => MapsLauncher.launchCoordinates(
-                                  _locations.first.latitude,
-                                  _locations.first.longitude,
-                                  "Report location"),
-                              icon: const Icon(
-                                Icons.directions,
-                                color: Colors.blue,
-                                size: 40,
-                              )),
+                          child: Center(
+                            child: IconButton(
+                                onPressed: () => MapsLauncher.launchCoordinates(
+                                    _locations.first.latitude,
+                                    _locations.first.longitude,
+                                    "Report location"),
+                                icon: const Icon(
+                                  Icons.directions,
+                                  color: Colors.blue,
+                                  size: 40,
+                                )),
+                          ),
                         )
                       ],
                     ),

@@ -49,7 +49,6 @@ class _DetailedPickUpPageState extends State<DetailedPickUpPage> {
       //     binID.add(row['Bin_No']);
       //     latitudes.add(row['latitude']);
       //     longtitudes.add(row['longitude']);
-
     }
 
     Position position = await _determinePosition();
@@ -97,7 +96,7 @@ class _DetailedPickUpPageState extends State<DetailedPickUpPage> {
                 zoom: 17)));
       });
     });
-
+    
     // callFunc();
   }
 

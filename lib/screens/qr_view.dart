@@ -40,17 +40,28 @@ class _QRViewExampleState extends State<QRViewExample> {
               fit: BoxFit.contain,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
+                children: [
                   if (result != null)
-                    Text(
-                        'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                    const Text(
+                      'Invalid QR',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+                    )
                   else
-                    const Text('Scan a code'),
+                    const Text(
+                      'SCAN THE QR CODE',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+                    ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
+                        height: 25,
                         margin: const EdgeInsets.all(8),
                         child: ElevatedButton(
                             onPressed: () async {
@@ -60,11 +71,17 @@ class _QRViewExampleState extends State<QRViewExample> {
                             child: FutureBuilder(
                               future: controller?.getFlashStatus(),
                               builder: (context, snapshot) {
-                                return Text('Flash: ${snapshot.data}');
+                                return Text(
+                                  'Flash: ${snapshot.data}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 8),
+                                );
                               },
                             )),
                       ),
                       Container(
+                        height: 25,
                         margin: const EdgeInsets.all(8),
                         child: ElevatedButton(
                             onPressed: () async {
@@ -75,39 +92,15 @@ class _QRViewExampleState extends State<QRViewExample> {
                               future: controller?.getCameraInfo(),
                               builder: (context, snapshot) {
                                 if (snapshot.data != null) {
-                                  return Text(
-                                      'Camera facing ${describeEnum(snapshot.data!)}');
+                                  return const Text('Turn Camera',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 8));
                                 } else {
                                   return const Text('loading');
                                 }
                               },
                             )),
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await controller?.pauseCamera();
-                          },
-                          child: const Text('pause',
-                              style: TextStyle(fontSize: 20)),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await controller?.resumeCamera();
-                          },
-                          child: const Text('resume',
-                              style: TextStyle(fontSize: 20)),
-                        ),
                       )
                     ],
                   ),
@@ -148,6 +141,11 @@ class _QRViewExampleState extends State<QRViewExample> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
+        if (result!.code.toString() ==
+            'Greenage Waste Management - Smart Bin #4') {
+          print('QR Scan Successful');
+          Navigator.pop(context, true);
+        } else {}
       });
     });
   }

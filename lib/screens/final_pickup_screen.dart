@@ -77,10 +77,9 @@ class _FinalPickUpState extends State<FinalPickUp> {
     //sleep(Duration(seconds: 5));
     Future.delayed(Duration.zero, () async {
       // Setting up Smart Bin data
-
       _conn = await MySqlConnection.connect(
         ConnectionSettings(
-          host: '34.93.37.194',
+          host: '34.93.225.253',
           port: 3306,
           user: 'root',
           password: 'root',
@@ -209,10 +208,7 @@ class _FinalPickUpState extends State<FinalPickUp> {
           leading: IconButton(
             icon: const Icon(Icons.qr_code, size: 25),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: ((context) => const QRViewExample())));
+              _navigateAndDisplaySelection(context);
             },
           ),
           title: const Text(
@@ -235,13 +231,19 @@ class _FinalPickUpState extends State<FinalPickUp> {
         Padding(
           padding: const EdgeInsets.only(left: 8, right: 8, bottom: 5, top: 5),
           child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    !(_arrivedCheckBox && _disposedCheckBox && _itemCheckBox)
+                        ? MaterialStateProperty.all<Color>(Colors.grey[300]!)
+                        : null,
+              ),
               onPressed: () async {
                 if (_arrivedCheckBox && _disposedCheckBox && _itemCheckBox) {
                   var res = await _conn.query(
                       "UPDATE PICKUPS SET status = 'COMPLETED' where pickup_id = ${_pickup.pickup_id}");
                   print(_pickup.id);
                   // print('Finished pickup');
-                  //  print(res);
+                  // print(res);
                   // ignore: use_build_context_synchronously
                   Navigator.pushAndRemoveUntil(
                       context,
@@ -283,5 +285,19 @@ class _FinalPickUpState extends State<FinalPickUp> {
 
     Position position = await Geolocator.getCurrentPosition();
     return position;
+  }
+
+  Future<void> _navigateAndDisplaySelection(BuildContext context) async {
+    // Navigator.push returns a Future that completes after calling
+    // Navigator.pop on the Selection Screen.
+    final result = await Navigator.push(
+      context,
+      // Create the SelectionScreen in the next step.
+      MaterialPageRoute(builder: (context) => const QRViewExample()),
+    );
+    _disposedCheckBox = result;
+    setState(() {
+      print('post QR - $_disposedCheckBox');
+    });
   }
 }
