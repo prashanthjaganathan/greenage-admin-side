@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QRViewExample extends StatefulWidget {
@@ -144,6 +145,7 @@ class _QRViewExampleState extends State<QRViewExample> {
         if (result!.code.toString() ==
             'Greenage Waste Management - Smart Bin #4') {
           print('QR Scan Successful');
+          Fluttertoast.showToast(msg: 'QR Verfied');
           Navigator.pop(context, true);
         } else {}
       });

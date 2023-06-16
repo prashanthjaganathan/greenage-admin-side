@@ -106,7 +106,10 @@ class _PickUpState extends State<PickUp> {
                 var _addressBrief = _words[_words.length - 1];
 
                 return ListTile(
-                  leading: Text('₹${_pickups[index].bill}'),
+                  leading: Text(
+                    '₹${_pickups[index].bill}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   title: Text('${_pickups[index].disposalSize} Waste Pickup'),
                   subtitle: Text(_addressBrief),
                   trailing: InkWell(
