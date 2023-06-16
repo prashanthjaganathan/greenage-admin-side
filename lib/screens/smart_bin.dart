@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:mysql1/mysql1.dart';
+
 import '../data/bin_level_dataModel.dart';
 import '../data/smart_bins_loc.dart';
 import '../widgets/home.dart';
@@ -19,7 +19,7 @@ class SmartBin extends StatefulWidget {
 }
 
 class _SmartBinState extends State<SmartBin> {
-  StreamController<DataModel> _streamController = StreamController();
+  final StreamController<DataModel> _streamController = StreamController();
   late GoogleMapController googleMapController;
   static const CameraPosition initialCameraPosition =
       CameraPosition(target: LatLng(13.0159044, 77.63786189999996), zoom: 12.0);
@@ -79,6 +79,7 @@ class _SmartBinState extends State<SmartBin> {
     DataModel dataModel = DataModel.fromJson(databody);
     // add API response to stream controller sink
     _streamController.sink.add(dataModel);
+    if (int.parse(dataModel.binLevel) >= 80) {}
   }
 
   @override
@@ -158,7 +159,7 @@ class _SmartBinState extends State<SmartBin> {
         ),
       ),
       const Padding(
-        padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 2),
+        padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 0),
         child: Text("Smart Bin Levels Near You",
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
       ),
@@ -197,19 +198,33 @@ class _SmartBinState extends State<SmartBin> {
       itemCount: markers.length,
       itemBuilder: (context, index) {
         return Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10),
-          child: ListTile(
-            tileColor: int.parse(dataModel.binLevel) >= 90
-                ? Colors.red.shade400
-                : (int.parse(dataModel.binLevel) >= 40
-                    ? Colors.orange.shade200
-                    : Colors.green.shade400),
-            horizontalTitleGap: 2,
-            title: Text('Smart Bin #${binID[index]}'),
-            subtitle: Text(area[index]),
-            trailing: Text('${dataModel.binLevel}%'),
-          ),
-        );
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: ListTile(
+                tileColor: int.parse(dataModel.binLevel) >= 80
+                    ? Colors.red.shade400
+                    : Colors.white,
+                // : (int.parse(dataModel.binLevel) >= 40
+                //     ? Colors.orange.shade200
+                //     : Colors.green.shade400),
+                horizontalTitleGap: 2,
+                title: Text('Smart Bin #${binID[index]}',
+                    style: const TextStyle(fontSize: 16, letterSpacing: 0)),
+                subtitle: Text(
+                  area[index],
+                  style: const TextStyle(fontSize: 13, letterSpacing: 2),
+                ),
+                trailing: Text(
+                  '${dataModel.binLevel}%',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: int.parse(dataModel.binLevel) >= 80
+                        ? Colors.black
+                        : ((int.parse(dataModel.binLevel) >= 40
+                            ? Colors.orange.shade200
+                            : Colors.green.shade400)),
+                  ),
+                )));
       },
     );
   }
@@ -240,4 +255,13 @@ class _SmartBinState extends State<SmartBin> {
     Position position = await Geolocator.getCurrentPosition();
     return position;
   }
+}
+
+class PushNotification {
+  PushNotification({
+    this.title,
+    this.body,
+  });
+  String? title;
+  String? body;
 }

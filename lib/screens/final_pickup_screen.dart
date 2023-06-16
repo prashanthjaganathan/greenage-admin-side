@@ -10,6 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:greeanage_employee/data/global.dart';
 import 'package:greeanage_employee/data/smart_bins_loc.dart';
 import 'package:greeanage_employee/screens/pick_up.dart';
+import 'package:greeanage_employee/screens/qr_view.dart';
 import 'package:greeanage_employee/widgets/home.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:mysql1/mysql1.dart';
@@ -49,7 +50,6 @@ class _FinalPickUpState extends State<FinalPickUp> {
       //     binID.add(row['Bin_No']);
       //     latitudes.add(row['latitude']);
       //     longtitudes.add(row['longitude']);
-
     }
 
     Position position = await _determinePosition();
@@ -208,7 +208,12 @@ class _FinalPickUpState extends State<FinalPickUp> {
           ),
           leading: IconButton(
             icon: const Icon(Icons.qr_code, size: 25),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) => const QRViewExample())));
+            },
           ),
           title: const Text(
             "Item Disposed",

@@ -19,7 +19,7 @@ class _HomeState extends State<Home> {
     const SmartBin(),
     const PickUp(),
     const Report(),
-    const Profile(),
+    // const Profile(),
   ];
 
   @override
@@ -60,12 +60,6 @@ class _HomeState extends State<Home> {
                 size: 30,
               ),
               label: 'Report'),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-                size: 30,
-              ),
-              label: 'Profile'),
         ],
       ),
       body: _list[_selectedIndex],
